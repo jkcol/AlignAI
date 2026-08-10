@@ -9,3 +9,6 @@ frontend/test-results/
 *.pt
 yolov8n-pose.pt
 data/progress.json
+
+# OS
+.DS_Store

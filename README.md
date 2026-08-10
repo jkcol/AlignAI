@@ -1,6 +1,34 @@
-# FormAI
+# AlignAI
 
-Simple demo with a React frontend that runs a MediaPipe Pose model in WebAssembly directly in the browser and shows it on live webcam video.
+**An AI form coach for physical therapy and workouts.** AlignAI compares your live webcam
+pose against a reference exercise video in real time, scores how closely your form matches,
+and coaches you with generated voice feedback when you drift — so someone rehabbing an
+injury or learning an exercise at home gets correction without a trainer in the room.
+
+Built at **HackIllinois** by a team of four. *(Previously named FormAI.)*
+
+## How it works
+
+Pose estimation runs **in the browser**: a MediaPipe Pose Landmarker (33 keypoints) executes
+via **WebAssembly** against the webcam feed, so per-frame tracking sustains ~30 FPS with no
+network round-trip. Reference videos are processed server-side — a **FastAPI** service
+orchestrates **YOLOv8-pose** on **Modal** GPU workers to extract keypoints from the demo
+clip, then the two keypoint streams are compared to produce a form score.
+
+Coaching sits on top: **GPT-4o-mini** turns pose deltas into corrections, **ElevenLabs**
+speaks them, and **Supermemory** (RAG) retains exercise form guides and your history so
+feedback improves across sessions. Progress is charted with Recharts.
+
+## Stack
+
+**Frontend:** React, Vite, JavaScript/TypeScript, WebAssembly, MediaPipe Tasks Vision, WebRTC (`getUserMedia`), Recharts
+**Backend:** Python, FastAPI, Server-Sent Events (SSE), Pydantic, httpx, OpenCV
+**ML / CV:** MediaPipe Pose Landmarker, YOLOv8-pose (Ultralytics), pose comparison and scoring
+**Cloud:** Modal (serverless GPU, Volumes, web endpoints)
+**AI services:** OpenAI GPT-4o-mini, ElevenLabs (TTS), Perplexity Sonar, xAI Grok (video), Supermemory (RAG)
+**Testing:** Vitest (unit), Playwright (end-to-end)
+
+See [`DEVPOST.md`](./DEVPOST.md) for the full hackathon writeup.
 
 ## Quick start
 
@@ -23,7 +51,7 @@ Then open **http://localhost:8000** in your browser. Run `npm install` in `front
 ### Backend
 
 ```bash
-cd FormAI
+cd .
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
@@ -35,7 +63,7 @@ Runs at `http://localhost:8001`. Copy `.env.example` to `.env` and add your API 
 ### Frontend
 
 ```bash
-cd FormAI/frontend
+cd frontend
 npm install
 npm run dev
 ```
