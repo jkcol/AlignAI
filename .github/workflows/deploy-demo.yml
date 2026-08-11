@@ -44,11 +44,10 @@ jobs:
           DEMO_BASE: /${{ github.event.repository.name }}/
         run: npm run build:demo
 
-      # enablement turns Pages on for the repo the first time this runs, so the
-      # deploy does not need a manual visit to Settings → Pages.
+      # Requires Pages to be enabled with Settings → Pages → Source: GitHub
+      # Actions. The action's `enablement` option cannot do this for us: the
+      # built-in GITHUB_TOKEN is not an admin token.
       - uses: actions/configure-pages@v5
-        with:
-          enablement: true
 
       - uses: actions/upload-pages-artifact@v3
         with:
