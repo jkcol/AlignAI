@@ -7,6 +7,26 @@ injury or learning an exercise at home gets correction without a trainer in the 
 
 Built at **HackIllinois** by a team of four. *(Previously named FormAI.)*
 
+## Live demo
+
+**▶ [jkcol.github.io/AlignAI](https://jkcol.github.io/AlignAI/)** — no install, no sign-up, no API keys.
+
+The demo runs the real pose-comparison engine entirely in your browser. Allow camera access
+to score your own squat against the reference, or leave it off and watch the simulated
+trainee — the scoring, per-limb breakdown, coaching messages, and rep counting are identical
+either way, because they all run through the same [`comparePose`](frontend/src/comparePose.ts)
+code the full app uses.
+
+To keep it free to host and safe to leave open to the public, the demo has no backend: the
+reference figure (and the simulated trainee) are generated procedurally in
+[`poseSynth.ts`](frontend/src/demo/poseSynth.ts) rather than extracted from video, so there
+are no server costs, no API keys to leak, and nothing to rate-limit. Everything that needs
+the FastAPI service — exercise search, YOLOv8 reference extraction, GPT-4o-mini coaching,
+ElevenLabs voices, PT reports — is left out of the demo and covered under
+[Quick start](#quick-start) below.
+
+Run it locally with `npm run dev:demo` in `frontend/`.
+
 ## How it works
 
 Pose estimation runs **in the browser**: a MediaPipe Pose Landmarker (33 keypoints) executes
