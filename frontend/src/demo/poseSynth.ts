@@ -65,8 +65,12 @@ const W_STANCE = 0.13;
 /** Three-quarter camera angle: enough depth to read a squat, enough width to read knee travel. */
 const YAW = 40 * DEG;
 
-/** Image placement. */
-const IMG_CENTER_X = 0.5;
+/**
+ * Image placement. The centre is nudged left of 0.5 because projecting at YAW
+ * swings the forward-reaching parts (arms, feet) to the right, which would
+ * otherwise leave the figure visibly off-centre in the canvas.
+ */
+const IMG_CENTER_X = 0.455;
 const IMG_ANKLE_Y = 0.88;
 const IMG_SCALE = 0.44;
 /** z is reported at a slightly smaller scale than x/y, as MediaPipe tends to. */
